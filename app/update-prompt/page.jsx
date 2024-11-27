@@ -15,13 +15,14 @@ const UpdatePrompt = () => {
 
   useEffect(() => {
     const getPromptDetails = async () => {
-      const response = await fetch(`/api/prompt/${promptId}`);
-      const data = await response.json();
-
-      setPost({
-        prompt: data.prompt,
-        tag: data.tag,
-      });
+      try {
+        const response = await fetch(`/api/prompt/${promptId}`);
+        if (!response.ok) throw new Error("Failed to fetch prompt details");
+        const data = await response.json();
+        setPost({ prompt: data.prompt, tag: data.tag });
+      } catch (error) {
+        console.error("Error fetching prompt details:", error);
+      }
     };
 
     if (promptId) getPromptDetails();
@@ -30,9 +31,10 @@ const UpdatePrompt = () => {
   const updatePrompt = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-
-    if (!promptId) return alert("Missing PromptId!");
-
+    if (!promptId) {
+      console.error("Prompt ID is missing in the URL.");
+      return;
+    }
     try {
       const response = await fetch(`/api/prompt/${promptId}`, {
         method: "PATCH",
