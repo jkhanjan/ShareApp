@@ -15,14 +15,13 @@ const UpdatePrompt = () => {
 
   useEffect(() => {
     const getPromptDetails = async () => {
-      try {
-        const response = await fetch(`/api/prompt/${promptId}`);
-        if (!response.ok) throw new Error("Failed to fetch prompt details");
-        const data = await response.json();
-        setPost({ prompt: data.prompt, tag: data.tag });
-      } catch (error) {
-        console.error("Error fetching prompt details:", error);
-      }
+      const response = await fetch(`/api/prompt/${promptId}`);
+      const data = await response.json();
+
+      setPost({
+        prompt: data.prompt,
+        tag: data.tag,
+      });
     };
 
     if (promptId) getPromptDetails();
