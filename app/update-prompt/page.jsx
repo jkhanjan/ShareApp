@@ -1,11 +1,10 @@
 "use client";
-
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-
 import Form from "@components/Form";
 
-const UpdatePrompt = () => {
+// Create a separate component for the content
+function UpdatePromptContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const promptId = searchParams.get("id");
@@ -61,6 +60,13 @@ const UpdatePrompt = () => {
       handleSubmit={updatePrompt}
     />
   );
-};
+}
 
-export default UpdatePrompt;
+// Wrap the content in a Suspense boundary
+export default function UpdatePrompt() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <UpdatePromptContent />
+    </Suspense>
+  );
+}
