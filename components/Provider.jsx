@@ -1,14 +1,11 @@
-"use client";
-import { SessionProvider } from "@node_modules/next-auth/react";
-import React, { Suspense } from "react";
+'use client';
 
-const Provider = ({ children, session }) => {
-  return (
-    <SessionProvider session={session}>
-      {" "}
-      <Suspense fallback={null}>{children}</Suspense>
-    </SessionProvider>
-  );
-};
+import { SessionProvider } from "next-auth/react";
+
+const Provider = ({ children, session }) => (
+  <SessionProvider session={session}>
+    {children}
+  </SessionProvider>
+)
 
 export default Provider;
